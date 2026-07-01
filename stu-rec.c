@@ -3,7 +3,8 @@
 
 #define MAX 100
 
-void addstudent();
+void addstudents();
+void liststudents();
 
 typedef struct {
   char name[50];
@@ -28,9 +29,10 @@ int main() {
 
     switch(choice) {
       case 1:
-        addstudent();
+        addstudents();
         break;
       case 2:
+        liststudents();
         break;
       case 3:
         break;
@@ -45,13 +47,14 @@ int main() {
   return 0;
 }
 
-void addstudent() {
+void addstudents() {
 
   printf("Name of the student: ");
   getchar();
   fgets(students[counter].name, 50, stdin) ;
   printf("Marks: ");
   scanf("%d", &students[counter].mark);
+  printf("\n");
   
   if(students[counter].mark >= 91 && students[counter].mark <= 100) {
     students[counter].grades = 'A';
@@ -72,4 +75,18 @@ void addstudent() {
     printf("Input not defined\n");
   }
   counter++;
+}
+
+void liststudents() {
+
+  if(counter == 0) {
+    printf("No students found\n");
+    return;
+  }
+
+  for(int i = 0; i < counter; i++) {
+    printf("Name: %s", students[i].name);
+    getchar();
+    printf("     Marks: %d  Grade: %c", students[i].mark, students[i].grades);
+  }
 }
