@@ -52,6 +52,7 @@ void addstudents() {
   printf("Name of the student: ");
   getchar();
   fgets(students[counter].name, 50, stdin) ;
+  students[counter].name[strcspn(students[counter].name, "\n")] = '\0';
   printf("Marks: ");
   scanf("%d", &students[counter].mark);
   printf("\n");
@@ -83,10 +84,12 @@ void liststudents() {
     printf("No students found\n");
     return;
   }
-
-  for(int i = 0; i < counter; i++) {
-    printf("Name: %s", students[i].name);
-    getchar();
-    printf("     Marks: %d  Grade: %c", students[i].mark, students[i].grades);
+  else{
+    for(int i = 0; i < counter; i++) {
+      printf("%d. Name: %s   Marks: %d  Grade: %c\n", i, students[i].name, students[i].mark, students[i].grades);
+    }
   }
+  printf("Student data indexed successfully\n");
 }
+
+
