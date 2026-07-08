@@ -5,6 +5,7 @@
 
 void addstudents();
 void liststudents();
+void delstudents();
 
 typedef struct {
   char name[50];
@@ -18,6 +19,8 @@ int counter = 0;
 
 int main() {
   int choice = 0;
+
+  printf("\n---Student Record---\n\n");
 
   while(choice != 4) {
     printf("1. Add Students\n");
@@ -35,6 +38,7 @@ int main() {
         liststudents();
         break;
       case 3:
+        delstudents();
         break;
       case 4:
         printf("Exit\n");
@@ -79,17 +83,35 @@ void addstudents() {
 }
 
 void liststudents() {
-
+  int comfynum = 1;
   if(counter == 0) {
     printf("No students found\n");
     return;
   }
   else{
     for(int i = 0; i < counter; i++) {
-      printf("%d. Name: %s   Marks: %d  Grade: %c\n", i, students[i].name, students[i].mark, students[i].grades);
+      printf("%d. Name: %s   Marks: %d  Grade: %c\n", comfynum, students[i].name, students[i].mark, students[i].grades);
+      comfynum++;
     }
   }
-  printf("Student data indexed successfully\n");
+  printf("\nStudent data indexed successfully\n\n");
 }
 
+void delstudents() {
+  int stunum;
+  liststudents();
+  printf("Enter the students index number to del.\n");
+  printf(": ");
+  scanf("%d", &stunum);
 
+  if(stunum >= 0 && stunum < counter) {
+    stunum--;
+    for(int i = stunum; i < counter - 1; i++) {
+      students[i] = students[i + 1];
+    }
+  counter--;
+  }
+  else{
+    printf("Student data doesn't exist.\n");
+  }
+}
