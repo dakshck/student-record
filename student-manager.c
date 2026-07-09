@@ -70,7 +70,7 @@ void checkstorage() {
 
 void addstudents() {
 char stuchoice = 'Y';
-  while(stuchoice == 'Y' | stuchoice == 'y' && storage == true) {
+  while(stuchoice == 'Y' || stuchoice == 'y' && storage == true) {
     printf("Name of the student: ");
     getchar();
     fgets(students[counter].name, 50, stdin) ;
@@ -98,12 +98,12 @@ char stuchoice = 'Y';
       }
     counter++;
     checkstorage();
-      if (storage == true) {
+      if (storage) {
         printf("Press 'Y' to add more students or 'N' to exit: ");
         scanf(" %c", &stuchoice);
       }
   }
-    if(storage == false) {
+    if(!storage) {
       printf("ERROR: Storage full\n");
     }
 }
@@ -119,7 +119,7 @@ void liststudents() {
       printf("%d. Name: %s  Marks: %d  Grade: %c\n", comfynum, students[i].name, students[i].mark, students[i].grades);
       comfynum++;
     }
-    if(storage == false) {
+    if(!storage) {
       printf("Note: Storage is full.\n");
     }
   }
@@ -129,7 +129,7 @@ void liststudents() {
 void delstudents() {
   int stunum;
   char loopchoice = 'Y';
-    while(loopchoice == 'Y' | loopchoice == 'y') {
+    while(loopchoice == 'Y' || loopchoice == 'y') {
       liststudents();
       printf("Enter the students index number to del: ");
       scanf("%d", &stunum);
