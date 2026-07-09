@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 
 #define MAX 100
 
+void checkstorage();
 void addstudents();
 void liststudents();
 void delstudents();
@@ -16,45 +18,59 @@ typedef struct {
 Student students[MAX];
 
 int counter = 0;
+int choice = 0;
+bool storage = true;
 
 int main() {
-  int choice = 0;
 
-  printf("\n---Student Manager---\n");
+  void checkstorage();
+    printf("\n---Student Manager---\n");
 
-  while(choice != 4) {
-    printf("\n1. Add Students\n");
-    printf("2. List Students\n");
-    printf("3. Delete Students\n");
-    printf("4. Exit\n");
-    printf(": ");
-    scanf("%d", &choice);
-    printf("-----------------------------------------------\n");
+    while(choice != 4) {
+      printf("\n1. Add Students\n");
+      printf("2. List Students\n");
+      printf("3. Delete Students\n");
+      printf("4. Exit\n");
+      printf(": ");
+      scanf("%d", &choice);
+      printf("------------------------------------------------\n");
 
-    switch(choice) {
-      case 1:
-        addstudents();
+      switch(choice) {
+        case 1:
+          addstudents();
         break;
-      case 2:
-        liststudents();
+        case 2:
+          liststudents();
         break;
-      case 3:
-        delstudents();
+        case 3:
+          delstudents();
         break;
-      case 4:
-        printf("Exit\n");
+        case 4:
+          printf("Exit\n");
         break;
-      default: 
-        printf("Input not defined\n");
+        default: 
+          printf("Input not defined\n");
+      }
     }
-
-  }
+    if(storage == false) {
+      printf("An ERROR has occured or STORAGE may be FULL!!\n");
+    }
   return 0;
+}
+
+void checkstorage() {
+  if(counter >= MAX) {
+    printf("NO MORE SEATS AVL!\n");
+    storage = false;
+  }
+  else{
+    storage = true;
+  }
 }
 
 void addstudents() {
 char stuchoice = 'Y';
-  while(stuchoice == 'Y' | stuchoice == 'y') {
+  while(stuchoice == 'Y' | stuchoice == 'y' && storage == true) {
     printf("Name of the student: ");
     getchar();
     fgets(students[counter].name, 50, stdin) ;
@@ -81,9 +97,15 @@ char stuchoice = 'Y';
         printf("Input not defined\n");
       }
     counter++;
-    printf("Press 'Y' to add more students or 'N' to exit: ");
-    scanf(" %c", &stuchoice);
+    checkstorage();
+      if (storage == true) {
+        printf("Press 'Y' to add more students or 'N' to exit: ");
+        scanf(" %c", &stuchoice);
+      }
   }
+    if(storage == false) {
+      printf("ERROR: Storage full\n");
+    }
 }
 
 void liststudents() {
@@ -97,6 +119,9 @@ void liststudents() {
       printf("%d. Name: %s  Marks: %d  Grade: %c\n", comfynum, students[i].name, students[i].mark, students[i].grades);
       comfynum++;
     }
+    if(storage == false) {
+      printf("Note: Storage is full.\n");
+    }
   }
   printf("\nStudent data indexed successfully!\n");
 }
@@ -109,20 +134,20 @@ void delstudents() {
       printf("Enter the students index number to del: ");
       scanf("%d", &stunum);
       printf("\n");
-
+      stunum--;
         if(stunum >= 0 && stunum < counter) {
-          stunum--;
             for(int i = stunum; i < counter - 1; i++) {
               students[i] = students[i + 1];
             }
           counter--;
           stunum++;
           printf("Student Indexed at %d deleted successfully!\n", stunum);
+          checkstorage();
         }
         else{
           printf("Student data doesn't exist.\n");
         }
-      printf("Press 'Y' to del more students or 'N' to exit: ");
+      printf("'Y' to continue and 'N' to exit: ");
       scanf(" %c", &loopchoice);
     }
 }
